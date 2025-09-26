@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zoom Meeting</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#0b1221; color:#fff; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; }
+  .card { background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); padding:28px; border-radius:12px; box-shadow: 0 10px 30px rgba(2,6,23,0.6); width:90%; max-width:640px; text-align:center; }
+  h1 { margin:0 0 8px 0; font-size:26px; letter-spacing:0.2px; color:#eaf2ff; }
+  p.lead { margin:6px 0 20px 0; color:#bcd0ff; }
+  .join { display:inline-block; padding:12px 20px; border-radius:8px; background:#2d6cdf; color:white; text-decoration:none; font-weight:600; box-shadow:0 6px 18px rgba(45,108,223,0.26); }
+  .small {font-size:13px; color:#95a6ff; margin-top:12px;}
+  .prank { margin-top:18px; background:rgba(255,255,255,0.04); padding:12px; border-radius:8px; color:#ffd2d2; }
+  .footer { margin-top:18px; font-size:12px; color:#98a7d9; }
+</style>
+</head>
+<body>
+  <div class="card" role="main" aria-labelledby="title">
+    <h1 id="title">Zoom Meeting</h1>
+    <p class="lead">Meeting ID: 123 4567 8901 · Passcode: 0000</p>
+    <a href="#" class="join" id="joinBtn" onclick="showPrank(event)">Join Meeting</a>
+    <div class="prank" id="prankBox" style="display:none;">
+      <h2 style="margin:6px 0 2px 0;">Gotcha — it’s a prank!</h2>
+      <p style="margin:0 0 8px 0;">This isn't a real Zoom meeting. No worries — nobody was invited.</p>
+      <p class="small">If you were expecting a meeting, check the original sender or ask them directly.</p>
+    </div>
+    <p class="footer">Made with playful mischief · No accounts were used</p>
+  </div>
+
+<script>
+function showPrank(e){
+  e.preventDefault();
+  var box = document.getElementById('prankBox');
+  box.style.display = 'block';
+  // small animation
+  box.style.opacity = 0;
+  var op = 0;
+  var t = setInterval(function(){
+    op += 0.06;
+    box.style.opacity = op;
+    if(op >= 1) clearInterval(t);
+  }, 16);
+  // also replace the join button text
+  var btn = document.getElementById('joinBtn');
+  btn.innerText = "Pranked";
+  btn.style.background = "#888";
+  btn.style.pointerEvents = "none";
+  // optional playful sound using generated beep (works in some browsers)
+  try {
+    var ctx = new (window.AudioContext || window.webkitAudioContext)();
+    var o = ctx.createOscillator();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(880, ctx.currentTime);
+    o.connect(ctx.destination);
+    o.start();
+    setTimeout(function(){ o.stop(); ctx.close(); }, 220);
+  } catch(e){}
+}
+</script>
+</body>
+</html>
